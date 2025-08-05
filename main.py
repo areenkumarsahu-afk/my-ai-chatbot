@@ -8,12 +8,12 @@ import tempfile
 import os 
 
 def load_docs(uploaded_file):
-    with temp.NamedTemporaryFile(delete=False) as tmp_file:
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
         tmp_file.write(uploaded_file.read())
         file_path=tmp_file.name
     with open(file_path,'r',encoding='utf-8') as f:
         raw_text=f.read()
-    text_splitter=CharacterTextSplitter(seperator='/n',chunk_size=1000,chunk_overlap=200)
+    text_splitter=CharacterTextSplitter(separator='/n',chunk_size=1000,chunk_overlap=200)
     docs=text_splitter.create_documents([raw_text])
     return docs
 
@@ -34,4 +34,5 @@ if uploaded_file:
     query=st.text_input("Ask something:")
     if query:
         answer=get_answers(docs,query)
+
         st.write("Answer:",answer)
